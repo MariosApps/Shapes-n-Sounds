@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shapes'n'Sounds</title>
+    <link rel="stylesheet" href="shapes.css" type="text/css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/paper.js/0.11.5/paper-full.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.9/howler.core.min.js" type="text/javascript"></script>
+    <script type="text/paperscript" canvas="myCanvas">
+        
+
+        var keyData = {
+                t: {
+                sound: new Howl({
+                  src: ['sounds/dotted-spiral.mp3']
+                }),
+                color: getRandomColor()
+                },
+                u: {
+                sound: new Howl({
+                  src: ['sounds/flash-2.mp3']
+                }),
+                color: getRandomColor()
+                },
+                a: {
+                sound: new Howl({
+                  src: ['sounds/pinwheel.mp3']
+                }),
+                color: getRandomColor()
+                },
+                j: {
+                sound: new Howl({
+                  src: ['sounds/splits.mp3']
+                }),
+                color: getRandomColor()
+                },
+                l: {
+                sound: new Howl({
+                  src: ['sounds/strike.mp3']
+                }),
+                color: getRandomColor()
+                },
+                v: {
+                sound: new Howl({
+                  src: ['sounds/veil.mp3']
+                }),
+                color: getRandomColor()
+                }
+                
+            }
+            
+            var keyDataRec = {
+                w: {
+                sound: new Howl({
+                  src: ['sounds/clay.mp3']
+                }),
+                color: getRandomColor()
+                },
+                i: {
+                sound: new Howl({
+                  src: ['sounds/flash-3.mp3']
+                }),
+                color: getRandomColor()
+                },
+                p: {
+                sound: new Howl({
+                  src: ['sounds/moon.mp3']
+                }),
+                color: getRandomColor()
+                },
+                f: {
+                sound: new Howl({
+                  src: ['sounds/prism-1.mp3']
+                }),
+                color: getRandomColor()
+                },
+                z: {
+                sound: new Howl({
+                  src: ['sounds/suspension.mp3']
+                }),
+                color: getRandomColor()
+                },
+                m: {
+                sound: new Howl({
+                  src: ['sounds/moon.mp3']
+                }),
+                color: getRandomColor()
+                }
+            }
+                
+                var keyDataTri = {
+                o: {
+                sound: new Howl({
+                src: ['sounds/glimmer.mp3']
+                }),
+                color: getRandomColor()
+                },
+                g: {
+                sound: new Howl({
+                  src: ['sounds/prism-2.mp3']
+                }),
+                color: getRandomColor()
+                },
+                y: {
+                sound: new Howl({
+                  src: ['sounds/flash-1.mp3']
+                }),
+                color: getRandomColor()
+                },
+                s: {
+                sound: new Howl({
+                  src: ['sounds/piston-1.mp3']
+                }),
+                color: getRandomColor()
+                },
+                b: {
+                sound: new Howl({
+                  src: ['sounds/wipe.mp3']
+                }),
+                color: getRandomColor()
+                }
+            }
+                
+                var keyDataPol = {
+                q: {
+                sound: new Howl({
+                  src: ['sounds/bubbles.mp3']
+                }),
+                color: getRandomColor()
+                },
+                d: {
+                sound: new Howl({
+                  src: ['sounds/piston-2.mp3']
+                }),
+                color: getRandomColor()
+                },
+                n: {
+                sound: new Howl({
+                src: ['sounds/zig-zag.mp3']
+                }),
+                color: getRandomColor()
+                },
+                r: {
+                sound: new Howl({
+                  src: ['sounds/corona.mp3']
+                }),
+                color: getRandomColor()
+                },
+                h: {
+                sound: new Howl({
+                  src: ['sounds/prism-3.mp3']
+                }),
+                color: getRandomColor()
+                },
+                c: {
+                sound: new Howl({
+                  src: ['sounds/ufo.mp3']
+                }),
+                color: getRandomColor()
+                },
+                e: {
+                sound: new Howl({
+                  src: ['sounds/confetti.mp3']
+                }),
+                color: getRandomColor()
+                },
+                x: {
+                sound: new Howl({
+                  src: ['sounds/timer.mp3']
+                }),
+                color: getRandomColor()
+                },
+                k: {
+                sound: new Howl({
+                  src: ['sounds/squiggle.mp3']
+                }),
+                color: getRandomColor()
+                }
+            }
+                
+
+        var circles = [];
+        var rectangles = [];
+        var triangles = [];
+        var polygons = [];
+        
+        function onKeyDown(event) {
+            var maxPoint = new Point(view.size.width, view.size.height);
+            var randomPoint = Point.random();
+            var point = maxPoint * randomPoint;
+            
+            if(keyDataRec[event.key]) {
+            var rectangle = new Rectangle(new Point(point), new Point(1000, 500));
+                var path = new Path.Rectangle(rectangle);
+                path.fillColor = keyDataRec[event.key].color;
+                keyDataRec[event.key].sound.play();
+                rectangles.push(path);
+            
+            } else if(keyData[event.key]) {
+                var newCircle = new Path.Circle(point, 500)
+                newCircle.fillColor = keyData[event.key].color;
+                keyData[event.key].sound.play();
+                circles.push(newCircle);
+                
+            } else if(keyDataTri[event.key]) {
+                var triangle = new Path.RegularPolygon(point, 3, 50);
+                triangle.fillColor = keyDataTri[event.key].color;
+                keyDataTri[event.key].sound.play();
+                triangles.push(triangle);
+            
+            
+             } else if(keyDataPol[event.key]) {
+                var polygon = new Path.RegularPolygon(point, 6, 50);
+                polygon.fillColor = keyDataPol[event.key].color;
+                keyDataPol[event.key].sound.play();
+                polygons.push(polygon);
+            }
+        }
+        
+        function onFrame(event) {
+            for(var i = 0; i < circles.length; i++) {
+                circles[i].scale(0.9);
+                circles[i].fillColor.hue += 1;
+                if(circles[i].area < 1){
+                  circles[i].remove();
+                  circles.splice(i, 1);
+                  i--;
+                }
+            }
+            for(var i = 0; i < rectangles.length; i++) {
+            rectangles[i].scale(0.9);
+            rectangles[i].fillColor.hue += 1;
+            rectangles[i].rotate(5);
+            if(rectangles[i].area < 1){
+                rectangles[i].remove();
+                rectangles.splice(i, 1);
+                i--;
+                }
+            }
+            
+            for(var i = 0; i < triangles.length; i++) {
+            triangles[i].scale(1.1);
+            triangles[i].fillColor.hue += 1;
+            triangles[i].rotate(10);
+            if(triangles[i].area > 3000000){
+                triangles[i].remove();
+                triangles.splice(i, 1);
+                i--;
+                }
+            }
+            
+            for(var i = 0; i < polygons.length; i++) {
+            polygons[i].scale(1.2);
+            polygons[i].fillColor.hue += 5;
+            polygons[i].rotate(5);
+            if(polygons[i].area > 3000000){
+                polygons[i].remove();
+                polygons.splice(i, 1);
+                i--;
+                }
+            }
+        }
+
+function getRandomColor() {
+//    r
+    var r = Math.floor(Math.random() * 256);
+//    g
+    var g = Math.floor(Math.random() * 256);
+//    b
+    var b = Math.floor(Math.random() * 256);
+    
+    return "rgb(" + r + ", " + g + ", " + b + ")";
+}
+
+    </script>
+    
+</head>
+<body>
+    <canvas id="myCanvas" resize></canvas>
+</body>
+</html>
