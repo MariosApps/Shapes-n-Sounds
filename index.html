@@ -62,7 +62,7 @@
                 }),
                 color: getRandomColor()
                 },
-                p: {
+                6: {
                 sound: new Howl({
                   src: ['sounds/moon.mp3']
                 }),
@@ -80,7 +80,7 @@
                 }),
                 color: getRandomColor()
                 },
-                m: {
+                8: {
                 sound: new Howl({
                   src: ['sounds/moon.mp3']
                 }),
@@ -101,7 +101,7 @@
                 }),
                 color: getRandomColor()
                 },
-                y: {
+                4: {
                 sound: new Howl({
                   src: ['sounds/flash-1.mp3']
                 }),
@@ -140,7 +140,7 @@
                 }),
                 color: getRandomColor()
                 },
-                r: {
+                0: {
                 sound: new Howl({
                   src: ['sounds/corona.mp3']
                 }),
@@ -164,7 +164,7 @@
                 }),
                 color: getRandomColor()
                 },
-                x: {
+                2: {
                 sound: new Howl({
                   src: ['sounds/timer.mp3']
                 }),
@@ -178,11 +178,90 @@
                 }
             }
                 
+                var keyDataStar = {
+                1: {
+                sound: new Howl({
+                  src: ['sounds/bubbles.mp3']
+                }),
+                color: getRandomColor()
+                },
+                x: {
+                sound: new Howl({
+                  src: ['sounds/piston-2.mp3']
+                }),
+                color: getRandomColor()
+                },
+                3: {
+                sound: new Howl({
+                src: ['sounds/zig-zag.mp3']
+                }),
+                color: getRandomColor()
+                },
+                y: {
+                sound: new Howl({
+                  src: ['sounds/corona.mp3']
+                }),
+                color: getRandomColor()
+                },
+                5: {
+                sound: new Howl({
+                  src: ['sounds/prism-3.mp3']
+                }),
+                color: getRandomColor()
+                },
+                p: {
+                sound: new Howl({
+                  src: ['sounds/ufo.mp3']
+                }),
+                color: getRandomColor()
+                },
+                7: {
+                sound: new Howl({
+                  src: ['sounds/confetti.mp3']
+                }),
+                color: getRandomColor()
+                },
+                m: {
+                sound: new Howl({
+                  src: ['sounds/timer.mp3']
+                }),
+                color: getRandomColor()
+                },
+                9: {
+                sound: new Howl({
+                  src: ['sounds/squiggle.mp3']
+                }),
+                color: getRandomColor()
+                },
+                r: {
+                sound: new Howl({
+                  src: ['sounds/confetti.mp3']
+                }),
+                color: getRandomColor()
+                }
+            }
+                
+                var keyDataBack = {
+                enter: {
+                sound: new Howl({
+                  src: ['sounds/dotted-spiral.mp3']
+                }),
+                color: getRandomColor()
+                },
+                space: {
+                sound: new Howl({
+                  src: ['sounds/flash-2.mp3']
+                }),
+                color: getRandomColor()
+                }
+            }
+                
 
         var circles = [];
         var rectangles = [];
         var triangles = [];
         var polygons = [];
+        var stars = [];
         
         function onKeyDown(event) {
             var maxPoint = new Point(view.size.width, view.size.height);
@@ -195,12 +274,14 @@
                 path.fillColor = keyDataRec[event.key].color;
                 keyDataRec[event.key].sound.play();
                 rectangles.push(path);
+                
             
             } else if(keyData[event.key]) {
                 var newCircle = new Path.Circle(point, 500)
                 newCircle.fillColor = keyData[event.key].color;
                 keyData[event.key].sound.play();
                 circles.push(newCircle);
+                
                 
             } else if(keyDataTri[event.key]) {
                 var triangle = new Path.RegularPolygon(point, 3, 50);
@@ -214,8 +295,22 @@
                 polygon.fillColor = keyDataPol[event.key].color;
                 keyDataPol[event.key].sound.play();
                 polygons.push(polygon);
-            }
+                 
+                 
+             } else if(keyDataStar[event.key]) {
+                var star = new Path.Star(point, 5, 300, 600);
+                star.fillColor = keyDataStar[event.key].color;
+                keyDataStar[event.key].sound.play();
+                stars.push(star);
+                 
+            
+             } else if(keyDataBack[event.key]) {
+                var back = document.getElementById("myCanvas");
+                back.style.backgroundColor = getRandomColor();
+                keyDataBack[event.key].sound.play();
+             }
         }
+            
         
         function onFrame(event) {
             for(var i = 0; i < circles.length; i++) {
@@ -228,54 +323,104 @@
                 }
             }
             for(var i = 0; i < rectangles.length; i++) {
-            rectangles[i].scale(0.9);
-            rectangles[i].fillColor.hue += 1;
-            rectangles[i].rotate(5);
-            if(rectangles[i].area < 1){
-                rectangles[i].remove();
-                rectangles.splice(i, 1);
-                i--;
+                rectangles[i].scale(0.9);
+                rectangles[i].fillColor.hue += 1;
+                rectangles[i].rotate(5);
+                if(rectangles[i].area < 1){
+                    rectangles[i].remove();
+                    rectangles.splice(i, 1);
+                    i--;
                 }
             }
             
             for(var i = 0; i < triangles.length; i++) {
-            triangles[i].scale(1.1);
-            triangles[i].fillColor.hue += 1;
-            triangles[i].rotate(10);
-            if(triangles[i].area > 3000000){
-                triangles[i].remove();
-                triangles.splice(i, 1);
-                i--;
+                triangles[i].scale(1.1);
+                triangles[i].fillColor.hue += 1;
+                triangles[i].rotate(10);
+                if(triangles[i].area > 3000000){
+                    triangles[i].remove();
+                    triangles.splice(i, 1);
+                    i--;
                 }
             }
             
             for(var i = 0; i < polygons.length; i++) {
-            polygons[i].scale(1.2);
-            polygons[i].fillColor.hue += 5;
-            polygons[i].rotate(5);
-            if(polygons[i].area > 3000000){
-                polygons[i].remove();
-                polygons.splice(i, 1);
-                i--;
+                polygons[i].scale(1.2);
+                polygons[i].fillColor.hue += 5;
+                polygons[i].rotate(5);
+                if(polygons[i].area > 3000000){
+                    polygons[i].remove();
+                    polygons.splice(i, 1);
+                    i--;
+                }
+            }
+            
+            for(var i = 0; i < stars.length; i++) {
+                stars[i].scale(0.9);
+                stars[i].fillColor.hue += 5;
+                if(stars[i].area < 1){
+                    stars[i].remove();
+                    stars.splice(i, 1);
+                    i--;
                 }
             }
         }
 
-function getRandomColor() {
-//    r
-    var r = Math.floor(Math.random() * 256);
-//    g
-    var g = Math.floor(Math.random() * 256);
-//    b
-    var b = Math.floor(Math.random() * 256);
-    
-    return "rgb(" + r + ", " + g + ", " + b + ")";
-}
+        function getRandomColor() {
+        //    red
+            var r = Math.floor(Math.random() * 256);
+        //    green
+            var g = Math.floor(Math.random() * 256);
+        //    blue
+            var b = Math.floor(Math.random() * 256);
+
+            return "rgb(" + r + ", " + g + ", " + b + ")";
+        }
+
+
+
+
+        var modal = document.getElementById('myModal');
+
+        var btn = document.getElementById("info");
+
+        var span = document.getElementsByClassName("close")[0];
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
 
     </script>
     
 </head>
 <body>
-    <canvas id="myCanvas" resize></canvas>
+    <div id="container">
+        <div>
+            <canvas id="myCanvas" resize></canvas>
+        </div>
+        <div id="box">
+            <button id="info">Info</button>
+        </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p>Use A-Z and 0-9 buttons to create different sounds and shapes. You can also use Enter or Space button to change background color.<br>
+                <br>
+                Have Fun!!!
+                </p>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
