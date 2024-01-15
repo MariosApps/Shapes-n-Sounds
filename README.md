@@ -1,6 +1,6 @@
 # Shapes'n'Sounds
 
-<h3><a href="https://pampuchskrytozerca.github.io/Shapes-n-Sounds/">DEMO</a></h3>
+<h3><a href="https://MariosApps.github.io/Shapes-n-Sounds/">DEMO</a></h3>
 
 A simplified version of this app (only circles and sounds) has been created on Udemy's "The Web Developer Bootcamp" by Colt Steele. I played a little with this code and added a few new shapes nad changable background.
 
